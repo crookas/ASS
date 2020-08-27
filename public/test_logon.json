@@ -1,0 +1,9 @@
+[
+    {
+        "status": "success",
+        "email": "joe.bloggs@unisa.edu.au",
+        "auth_level": "Full_Access",
+        "firstname": "Joe",
+        "lasname": "Bloggs"
+    }
+]
