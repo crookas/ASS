@@ -86,12 +86,22 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'NavMenu',
+    computed: {
+      ...mapGetters({
+          // grab the user data from the STORE
+          user: 'user'
+      }),
+    },
+    mounted () {
+
+    },
     data () {
       return {
-        //
+        loggedIn: false
       }
-    }
+    },
   }
 </script>

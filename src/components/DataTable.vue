@@ -33,6 +33,7 @@
       :single-select="singleSelect"
       :item-key="table_key"
       show-select
+      
     >
       <template v-slot:item.attr_WARRANTY_DATE="{ item }">
         <span>{{new Date(item.attr_WARRANTY_DATE).toLocaleString("en-AU",{ year: '2-digit',month: '2-digit',day: '2-digit' })}}</span>
@@ -45,17 +46,35 @@
 
     <DialogAssetReport 
       :visible="showAssetDialog"
-      @close="showAssetDialog=false" />
+      @close="showAssetDialog=false"
+      @assetReport='doDialogAction'
+    />
     <DialogPurchasingSpreadsheet
       :visible="showPurchasingDialog"
       :configItems="selected"
-      @close="showPurchasingDialog=false" />
+      @close="showPurchasingDialog=false" 
+      @purchasingSpreadsheet='doDialogAction'
+    />
     <DialogUpdate
       :visible="showUpdateDialog"
       :configItems="selected"
-      @close="showUpdateDialog=false" />
+      @close="showUpdateDialog=false"
+      @updateCi='doDialogAction'
+    />
+
+
+      <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
+        {{ snackText }}
+
+        <template v-slot:action="{ attrs }">
+          <v-btn v-bind="attrs" text @click="snack = false">Close</v-btn>
+      </template>
+    </v-snackbar>
+
 
   </v-card>
+
+
 </template>
 
 <script>
@@ -102,17 +121,48 @@
           {text: "Download Purchasing Spreadsheet",icon: "mdi-clipboard-list-outline"},
           {text: "Update Selected Items",icon:"mdi-playlist-edit"},
         ],
+        snack: false,
+        snackColor: '',
+        snackText: ''
       }
     },
     methods: {
       open_dialog(value) {
         
-        if(value.includes("Update")) {this.showUpdateDialog = true}
-        if(value.includes("Asset")) {this.showAssetDialog = true}
-        if(value.includes("Purchasing")) {this.showPurchasingDialog = true}
+        if(value.includes("Update")) {
+          this.showUpdateDialog = true
+        }
+        if(value.includes("Asset")) {
+          this.showAssetDialog = true
+        }
+        if(value.includes("Purchasing")) {
+          this.showPurchasingDialog = true
+        }
+
+        //this.snack = true
+        //this.snackColor = 'info'
+        //this.snackText = 'Dialog opened'
+
       },
       doDialogAction(value) {
-        alert("Performing action: " + value)
+        //console.log("Performing action:")
+        //console.log(value)
+        switch(value.action) {
+          case 'assetReport' :
+            this.showAssetDialog = false
+            break
+          case 'createPurchasingSpreadsheet' :
+            this.showPurchasingDialog = false
+            break
+          case 'update' :
+            this.showUpdateDialog = false
+            break
+        }
+
+        this.snack = true
+        this.snackColor = 'success'
+        this.snackText = 'Action completed: ' + value.action
+
       }
     }
   }

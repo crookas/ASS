@@ -18,11 +18,7 @@
     </v-row>
     
     <v-row>
-      <locationChooser 
-        @location="setLocation"
-      />
-
-    {{location}}
+      <exportSpreadsheet />
     </v-row>
     
     
@@ -30,11 +26,11 @@
 </template>
 
 <script>
-    import locationChooser from '../components/LocationChooser'
+    import exportSpreadsheet from '../components/BaseExportSpreadsheet'
     export default {
       name: 'LandingPage',
       components: {
-          locationChooser
+          exportSpreadsheet
       },
       data () {
         return {

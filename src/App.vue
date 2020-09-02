@@ -5,7 +5,9 @@
       color="primary"
       dark
     >
-      <NavMenu />
+      <NavMenu 
+         v-if='this.loggedIn'
+      />
       <v-spacer></v-spacer>
       <LoginForm />
     </v-app-bar>
@@ -20,16 +22,19 @@
 <script>
   import NavMenu from './components/NavMenu';
   import LoginForm from './components/LoginForm';
-
+  import { mapGetters } from 'vuex'
   export default {
     name: 'App',
     components: {
       NavMenu,
       LoginForm,
     },
-    data: () => ({
-      //
-    }),
+    computed: {
+        ...mapGetters({
+            // is a user logged in?
+            loggedIn: 'isUserLoggedIn'
+        }),
+    },
     methods: {
       //
     }

@@ -2,21 +2,16 @@
 
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
-import routes from './routes';
-
-
-
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
+import { store } from './store'
+import { router } from './routes'
 
 Vue.config.productionTip = false
 
-Vue.use(VueRouter)
-const router = new VueRouter({routes, mode: 'history'});
-
-Vue.use(Vuex)
-import { store } from './store'
+// Get data from server and load it into the vuex store
+// This happens asynchronously in the background before and while th euser logs in - pretty clever hey
+// loadMarvalData gets the statuses/models/makes etc needed for dynamic select menus
+// locaCIData gets all of the end-user-device data
 store.dispatch('loadMarvalData')
 store.dispatch('loadCIData')
 

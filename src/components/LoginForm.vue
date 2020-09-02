@@ -3,8 +3,9 @@
 <template>
     <v-form>
         <v-container>
+            
             <v-row align="center">
-                <v-col
+                <!-- <v-col
                     cols="12"
                     md="5"
                 >
@@ -31,17 +32,27 @@
                             @click:append="showpass = !showpass"
                         ></v-text-field>
                     </div>
-                </v-col>
+                </v-col> -->
                 <v-col
                     cols="12"
                     md="2"
                 >
                     <v-btn 
+                        v-if='this.loggedIn'
+                        rounded 
+                        color="primary"
+                        v-on:click="logout()"
+                    >
+                    Logout
+                    </v-btn>
+                    <v-btn 
+                        v-else
                         rounded 
                         color="primary"
                         v-on:click="login()"
                     >
-                    Login</v-btn>
+                    Login
+                    </v-btn>
                 </v-col>       
             </v-row>
         </v-container>
@@ -49,21 +60,35 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+    import { mapGetters } from 'vuex'
     export default {
         name: 'LoginForm',
-        data () {
-            return {
-                showpass: false,
-                username: null,
-                password: null
-            }
+        computed: {
+            ...mapGetters({
+                // is a user logged in?
+                loggedIn: 'isUserLoggedIn'
+            }),
         },
         methods: {
+            ...mapActions([
+            'setUser',
+            'clearUser'
+            ]),
             login() {
-                this.$store.commit('setUserMutation', this.username)
+                var user = {
+                    userName: 'crookas',
+                    firstName: 'Andrew',
+                    lastName: 'Crook',
+                    auth_level: 'full_access'
+                }
+                this.setUser(user)
             },
             logout() {
-                console.log(this.username + ' has logged out')
+                this.clearUser()
+                if(this.$route.name !== 'landing') {
+                    this.$router.push( '/' )
+                }
             }
         }
     }

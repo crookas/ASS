@@ -179,12 +179,16 @@
         //alert("Updating CIs")
         // populate update object with form inputs
         var update_object = []
-        update_object.location = this.location;
-        update_object.status = this.status;
-        update_object.usage = this.usage;
-        update_object.purpose = this.purpose;
-        update_object.email = this.email;
-        console.log(update_object)
+        update_object.action = 'update'
+        update_object.location = this.location
+        update_object.status = this.status
+        update_object.usage = this.usage
+        update_object.purpose = this.purpose
+        update_object.email = this.email
+        update_object.CIs = this.configItems
+        //console.log(update_object)
+
+        this.$emit('updateCi',update_object)
       },
       setLocation(value) {
         this.location = value

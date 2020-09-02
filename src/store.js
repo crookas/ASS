@@ -7,12 +7,13 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     debug: true,
-    authenticated: true,
-    user: {
-      firstName: 'Bruce',
-      lastName:'Lee',
-      userName: 'blee',
-    },
+    user: [
+      // username
+      // firstname
+      // lastname
+      // auth_level
+      // email
+    ],
     marval_data: [{
       statuses: [],
       purposes: [],
@@ -25,13 +26,13 @@ export const store = new Vuex.Store({
     hardware_data: [],
   },
   mutations: {
-    setUserMutation (state, user) {
-      if (state.debug) console.log('store.setUserAction triggered with ', user)
-      state.user.userName = user
+    setUser (state, user) {
+      if (state.debug) console.log('store.setUser triggered with ', user)
+      state.user = user
     },
-    clearUserMutation (state) {
-      if (state.debug) console.log('store.clearUserAction triggered')
-      state.user.userName = null
+    clearUser (state) {
+      if (state.debug) console.log('store.clearUser triggered')
+      state.user = []
     },
     setMarvalData (state, data) {
       if (state.debug) console.log('store.setMarvalData triggered')
@@ -43,6 +44,12 @@ export const store = new Vuex.Store({
     }
   },
   actions: {
+    setUser ( { commit }, user ) {
+      commit('setUser',user)
+    },
+    clearUser ( { commit }) {
+      commit('clearUser')
+    },
     loadMarvalData ( { commit } ) {
       // Gets marval data from backend - Statuses,purposes,campuses, makes and models all that sort of shit
       axios.get('test_menu_data.json')
@@ -57,14 +64,31 @@ export const store = new Vuex.Store({
       // Gets CI data from backend
       axios.get('test_ci_data.json')
       .then(response => {
+        response.data.forEach(function(row) {
+          // convert date fields to date objects
+          if(row.attr_WARRANTY_DATE) {
+            row.attr_WARRANTY_DATE = new Date(row.attr_WARRANTY_DATE)
+          }
+        })
         commit('setCIData', response.data);
       })
       .catch(error => {
         console.log('Error downloading CI data in store' + error)
       })
-    },   
+    },
   },
   getters: {
+    userData: state => {
+      return state.user
+    },
+    isUserLoggedIn: state => {
+      //return !!state.user.userName
+      if (typeof state.user.userName === 'undefined' || state.user.userName === null) {
+        return false
+      } else {
+        return true
+      }
+    },
     hardwareCICount() {
       return state => state.marval_data.hardware_data.length;
     },

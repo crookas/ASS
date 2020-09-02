@@ -138,6 +138,7 @@
     methods: {
       do_action() {
         var purchasingSpreadsheetObject = []
+        purchasingSpreadsheetObject.action = 'createPurchasingSpreadsheet'
         purchasingSpreadsheetObject.serviceCall = this.serviceCall
         purchasingSpreadsheetObject.quoteNumber = this.quoteNumber
         purchasingSpreadsheetObject.cost = this.cost
@@ -147,7 +148,7 @@
         purchasingSpreadsheetObject.make = this.make
         purchasingSpreadsheetObject.model = this.model
         purchasingSpreadsheetObject.configItems = this.configItems
-        console.log(purchasingSpreadsheetObject)
+        this.$emit('purchasingSpreadsheet',purchasingSpreadsheetObject)
       },
     }
   }
