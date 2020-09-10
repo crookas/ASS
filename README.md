@@ -1,4 +1,5 @@
-# alms-frontend
+# Asset Management Full Stack
+A javascript vue.js based front end and backend system for hardware and software asset management.
 
 ## Project setup
 ```
