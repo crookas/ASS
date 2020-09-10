@@ -1,6 +1,6 @@
 // routes.js
 import Vue from 'vue'
-import { store } from './store'
+import { store } from './store/store'
 import VueRouter from 'vue-router'
 
 import SearchPage from './views/SearchPage.vue'
